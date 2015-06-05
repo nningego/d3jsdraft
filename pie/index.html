@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<meta charset="utf-8">
+<html>
+<head>
+    <script type="text/javascript" src="../d3.min.js"></script>
+</head>
 <style>
 
     body {
@@ -12,7 +15,6 @@
 
 </style>
 <body>
-<script type="text/javascript" src="../d3.min.js"></script>
 <script>
 
     var width = 960,
@@ -39,13 +41,13 @@
             .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
     var data = [
-        {age: "<5", population: 36},
-        {age: "5-13", population: 25},
+        {age: "<5", population: 50},
+        {age: "5-13", population: 87},
         {age: "14-17", population: 845},
         {age: "18-24", population: 235},
         {age: "25-44", population: 76},
         {age: "45-64", population: 234},
-        {age: "≥65", population: 98}
+        {age: ">=65", population: 98}
     ];
 
 
@@ -76,3 +78,5 @@
 
 
 </script>
+</body>
+</html>

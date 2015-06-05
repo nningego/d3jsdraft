@@ -7,13 +7,13 @@
 ##Pick charts: 
 >For simple data: 
 ```sh
-[ {age: "<5", population: 36}, 
-{age: "5-13", population: 25}, 
+[ {age: "<5", population: 50},
+{age: "5-13", population: 87},
 {age: "14-17", population: 845}, 
 {age: "18-24", population: 235}, 
 {age: "25-44", population: 76}, 
 {age: "45-64", population: 234}, 
-{age: "≥65", population: 98} ];
+{age: ">=65", population: 98} ];
 ```
 
 >1) Simple Pie chart [pie folder] 
@@ -24,7 +24,10 @@
 
 Extensions: - add color - add styling
 
-Data conversion: Use given files from data.gov [csv or json format] Convert data to fit into your chart
+##Data conversion:
+Use given files from data.gov [csv or json format]
+
+Convert data to fit into your chart
 
 ============================================ 
 
