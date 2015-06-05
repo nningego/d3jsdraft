@@ -23,6 +23,7 @@
 > 3) ?
 
 Extensions: - add color - add styling
+
 Data conversion: Use given files from data.gov [csv or json format] Convert data to fit into your chart
 
 ============================================ 
