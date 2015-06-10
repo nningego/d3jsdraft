@@ -1,0 +1,80 @@
+<html>
+<head>
+    <script type="text/javascript" src="../d3.min.js"></script>
+</head>
+<body>
+<script type="text/javascript">
+
+    //Step1
+
+    // The pie chart is going to be an array of arcs, each having startAngle, endAngle and value properties
+
+    var width = 600, height = 500, radius = Math.min(width, height) / 4;
+
+    var svg = d3.select("body").append("svg")
+            .attr("width", width)
+            .attr("height", height)
+            .append("g")
+            .attr("transform", "translate(" + radius + "," + radius + ")");
+    //outer radius and inner radius for arc
+    var arc = d3.svg.arc()
+            .outerRadius(radius)
+            .innerRadius(0);
+
+    //Step 2
+    //Lets add some data
+    var data = [
+        {age: "<5", population: 50},
+        {age: "5-13", population: 87},
+        {age: "14-17", population: 845},
+        {age: "18-24", population: 235},
+        {age: "25-44", population: 76},
+        {age: "45-64", population: 234},
+        {age: ">=65", population: 98}
+    ];
+
+    //calculate angles
+    var pie = d3.layout.pie()
+            .value(function (d) {
+                return d.population;
+            });
+
+    var g = svg.selectAll(".slice")//find all arc classes inside g and add data to it, none yet
+            .data(pie(data)) //associate pie data
+            .enter()  //adds a group for every data element - grouping every slice- so that we can add properties to the slice like color
+            .append("g") // add grouping
+            .attr("class", "slice"); //add class to help us style the slices
+//    // you should see a number of "<g class="arc"></g>" in you examine the html
+
+    //Step 3
+    //To make sure you have correct data, display data as text, and examine your html
+//    var g = svg.selectAll(".arc")
+//            .data(pie(data))
+//            .enter()
+//            .append("g")
+//            .attr("class", "arc")
+//            .text(function (d) {  //anonymous function to loop through data
+//                return d.data.population;
+//            });
+
+    //Step 4
+    //add color
+    //examine the html - question to attendees- what does svg path do?
+    var color = d3.scale.ordinal()
+            .range(["violet", "indigo", "blue", "green", "yellow", "orange", "red"]);
+    g.append("path")
+            .attr("d", arc)
+            .style("fill", function (d) {
+                return color(d.data.age);
+            });
+
+    //Step 5
+    //add data - show age on slices
+
+
+
+
+</script>
+
+</body>
+</html>

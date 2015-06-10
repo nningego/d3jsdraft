@@ -1,4 +1,6 @@
 #Rough course overview
+[Use browser developer tools to examine what each d3 step does]
+
 ##Basics [see svg folder] 
 >1) Learn SVG - create a circle using SVG in html 
 
