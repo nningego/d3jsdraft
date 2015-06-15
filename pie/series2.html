@@ -9,7 +9,7 @@
 
     // The pie chart is going to be an array of arcs, each having startAngle, endAngle and value properties
 
-    var width = 600, height = 500, radius = Math.min(width, height) / 4;
+    var width = 800, height = 600, radius = Math.min(width, height) / 4;
 
     var svg = d3.select("body").append("svg")
             .attr("width", width)
@@ -44,18 +44,18 @@
             .enter()  //adds a group for every data element - grouping every slice- so that we can add properties to the slice like color
             .append("g") // add grouping
             .attr("class", "slice"); //add class to help us style the slices
-//    // you should see a number of "<g class="arc"></g>" in you examine the html
+    //    // you should see a number of "<g class="arc"></g>" in you examine the html
 
     //Step 3
     //To make sure you have correct data, display data as text, and examine your html
-//    var g = svg.selectAll(".arc")
-//            .data(pie(data))
-//            .enter()
-//            .append("g")
-//            .attr("class", "arc")
-//            .text(function (d) {  //anonymous function to loop through data
-//                return d.data.population;
-//            });
+    //    var g = svg.selectAll(".arc")
+    //            .data(pie(data))
+    //            .enter()
+    //            .append("g")
+    //            .attr("class", "arc")
+    //            .text(function (d) {  //anonymous function to loop through data
+    //                return d.data.population;
+    //            });
 
     //Step 4
     //add color
@@ -70,6 +70,32 @@
 
     //Step 5
     //add data - show age on slices
+
+    //    g.append("text")
+    //            .text(function (d) {
+    //                return d.data.age;
+    //            });
+    // Uh oh - all the data is populated at the center by default thus overlapping each other
+    // lets use centroid method-  which finds the center point inside and arc - taking into consideration the
+    // the inner, outer radius, start and end angle
+//    g.append("text")
+//            .attr("transform", function (d) {
+//                return "translate(" + arc.centroid(d) + ")";
+//            })
+//            .text(function (d) {
+//                return d.data.age;
+//            });
+
+//Move it to the middle
+//    g.append("text")
+//            .attr("transform", function (d) {
+//                return "translate(" + arc.centroid(d) + ")";
+//            })
+//            .style("text-anchor", "middle")
+//            .text(function (d) {
+//                return d.data.age;
+//            });
+
 
 
 

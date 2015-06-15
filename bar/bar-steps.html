@@ -1,0 +1,109 @@
+<html>
+<head>
+    <script type="text/javascript" src="../d3.min.js"></script>
+</head>
+<body>
+<script type="text/javascript">
+    //Considering there are no errors,
+    // please look at what the html additions are with each step
+
+    //Draw a rectangle of size 100 x 50 pixels
+    //Step 1
+    //Add rect svg element
+    //    var rect = d3.select("body")
+    //            .append("svg")
+    //            .append("rect");
+    //Look at html and see what elements have been added to the page
+    //You should see <svg><rect>
+
+
+    //Step 2
+    //Height and Width
+    //    rect.attr("height",100)
+    //            .attr("width", 50);
+    //Look at html and see what elements have been added to the page
+    //You should see h and w, also you will see the single bar on top left of browser
+
+
+    //Step 3
+    //Add more bars
+    var data = [
+        {age: "<5", population: 50},
+        {age: "5-13", population: 87},
+        {age: "14-17", population: 400},
+        {age: "18-24", population: 235},
+        {age: "25-44", population: 76},
+        {age: "45-64", population: 234},
+        {age: ">=65", population: 98}
+    ];
+
+    //    rect.attr("height", function(data){return data.population; });
+    //The above example is not going to work and you will need to create a new rect for every data.
+    //D3js makes this simple for you
+
+    var svg = d3.select("body")
+            .append("svg");
+
+    var group = svg
+            .append("g");
+    var rect = group
+            .selectAll("rect")
+            .data(data).enter()
+            .append("rect");
+
+    //How do we know there is data associated with each bar?
+    //Check html after this step
+//    rect.text(function (d) {
+//        return d.population;
+//    });
+
+    //Step 4 - make height equal to population
+    var barWidth = 50;
+    rect.attr("width", barWidth)
+            .attr("height", function (d) {
+                return d.population;
+            });
+
+    // Step 5 - display rectangles one by one in a row
+
+    rect.attr("x", function (d, i) {
+        return i * (barWidth + 10);
+    });
+
+    // Step 6 - You should see all your bars [upside down].
+    // But when you examine every rect dom, you will notice the height has been cut off from display
+    //Hover over <svg> and it will show you a default h and w - 300 x 150
+    //Lets fix that
+
+    svg.attr("height", 600)
+            .attr("width", 600);
+
+    //You create a new SVG viewport whenever you create a new SVG element.
+    // The size of the viewport is equal to the width and height you set on the SVG element.
+    //viewport size: 300px by 150px seems to be the general default
+
+    //Step 7- SVG coordinate system
+    //The origin (0,0) of any SVG coordinate system is in the upper left corner of the parent element,
+    // whether the parent is the body, a div, or some other container.
+
+    //domain: input data -> 0 to 400
+    //scale -> 0 to 100
+//    var height = 600;
+//    var width = 600;
+//    var y = d3.scale.linear()
+//            .range([height, 0]);
+
+
+
+    //Step 8 - adding text
+//    rect.append("text")
+//            .attr("y", 500)
+//            .attr("x", 5)
+//            .style("color", "red")
+//            .text(function (d) {
+//        return d.population;
+//    })
+
+</script>
+</body>
+</html>
