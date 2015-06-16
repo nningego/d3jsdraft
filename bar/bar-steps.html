@@ -2,7 +2,13 @@
 <head>
     <script type="text/javascript" src="../d3.min.js"></script>
 </head>
+<style>
+    /*.chart rect {*/
+        /*fill: steelblue;*/
+    /*}*/
+</style>
 <body>
+<span class="chart"></span>
 <script type="text/javascript">
     //Considering there are no errors,
     // please look at what the html additions are with each step
@@ -41,68 +47,98 @@
     //The above example is not going to work and you will need to create a new rect for every data.
     //D3js makes this simple for you
 
-    var svg = d3.select("body")
+    var svg = d3
+            .select(".chart")
             .append("svg");
 
     var group = svg
-            .append("g");
-    var rect = group
-            .selectAll("rect")
+            .selectAll("g")
             .data(data).enter()
+            .append("g");
+    //group every bar - to help later with adding text and color
+
+
+    var rect = group
             .append("rect");
 
     //How do we know there is data associated with each bar?
     //Check html after this step
-//    rect.text(function (d) {
-//        return d.population;
-//    });
+    //    rect.text(function (d) {
+    //        return d.population;
+    //    });
 
     //Step 4 - make height equal to population
     var barWidth = 50;
-    rect.attr("width", barWidth)
+
+    rect
+            .attr("width", barWidth)
             .attr("height", function (d) {
                 return d.population;
             });
 
     // Step 5 - display rectangles one by one in a row
 
-    rect.attr("x", function (d, i) {
-        return i * (barWidth + 10);
-    });
+    rect
+            .attr("x", function (d, i) {
+                return i * (barWidth + 10);
+            });
 
     // Step 6 - You should see all your bars [upside down].
     // But when you examine every rect dom, you will notice the height has been cut off from display
     //Hover over <svg> and it will show you a default h and w - 300 x 150
     //Lets fix that
 
-    svg.attr("height", 600)
+    svg
+            .attr("height", 600)
             .attr("width", 600);
 
     //You create a new SVG viewport whenever you create a new SVG element.
     // The size of the viewport is equal to the width and height you set on the SVG element.
     //viewport size: 300px by 150px seems to be the general default
 
-    //Step 7- SVG coordinate system
-    //The origin (0,0) of any SVG coordinate system is in the upper left corner of the parent element,
-    // whether the parent is the body, a div, or some other container.
 
-    //domain: input data -> 0 to 400
-    //scale -> 0 to 100
-//    var height = 600;
-//    var width = 600;
-//    var y = d3.scale.linear()
-//            .range([height, 0]);
+    //    Step 8 - adding text
+    //adding population
+    group
+            .append("text")
+            .attr("y", function (d) {
+                return d.population + 10;
+            })
+            .attr("x", function (d, i) {
+                return i * (barWidth + 10)
+            })
+            .style("fill", "red")
+            .text(function (d) {
+                return d.population;
+            });
+
+    //lets make some space to add age on x axis
+    group.attr("transform", "translate(10, 80)");
+
+    //add age on x-axis
+    group
+            .append("text")
+            .attr("y",0)
+            .attr("x", function (d, i) {
+                return i * (barWidth +10 )
+            })
+            .style("fill", "blue")
+            .text(function (d) {
+                return d.age;
+            });
 
 
-
-    //Step 8 - adding text
-//    rect.append("text")
-//            .attr("y", 500)
-//            .attr("x", 5)
-//            .style("color", "red")
-//            .text(function (d) {
-//        return d.population;
-//    })
+    //Step 9 - make every bar different color
+    /* You can make all bars steel blue by adding css style
+    <style>
+    .chart rect {
+        fill: steelblue;
+    }
+    </style>
+    */
+    //Or you can do it with d3js
+    var colors = d3.scale.category20();
+    group.select("rect").attr("fill", function(d, i){return colors(i)});
 
 </script>
 </body>
