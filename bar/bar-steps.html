@@ -6,6 +6,9 @@
     /*.chart rect {*/
     /*fill: steelblue;*/
     /*}*/
+    .chart heading {
+        font-size: larger;
+    }
 </style>
 <body>
 <span class="chart"></span>
@@ -149,6 +152,15 @@
     group.select("rect").attr("fill", function (d, i) {
         return colors(i)
     });
+
+    //Step 10
+    //add description [adding and using css]
+    svg
+            .append("text")
+            .attr("x", 50).attr("y", 100)
+            .attr("class", "heading")
+            .text("My Bar graph")
+
 
 </script>
 </body>
