@@ -6,8 +6,9 @@
     /*.chart rect {*/
     /*fill: steelblue;*/
     /*}*/
-    .chart heading {
-        font-size: larger;
+    .chart .heading {
+        font-size: 20px;
+        font-style: italic;
     }
 </style>
 <body>
@@ -55,13 +56,16 @@
             .append("svg");
 
     var group = svg
+            .append("g");
+
+
+    //group every bar - to help later with adding text and color
+    var bars = group
             .selectAll("g")
             .data(data).enter()
             .append("g");
-    //group every bar - to help later with adding text and color
 
-
-    var rect = group
+    var rect = bars
             .append("rect");
 
     //How do we know there is data associated with each bar?
@@ -110,7 +114,7 @@
 
     //        Step 8 - adding text
     //    adding population
-    group
+    bars
             .append("text")
             .attr("y", function (d) {
                 return maxHeight - d.population;
@@ -127,7 +131,7 @@
     group.attr("transform", "translate(50, 20)");
 
     //add age on x-axis
-    group
+    bars
             .append("text")
             .attr("y", maxHeight + 10)
             .attr("x", function (d, i) {
@@ -149,17 +153,17 @@
      */
     //Or you can do it with d3js
     var colors = d3.scale.category20();
-    group.select("rect").attr("fill", function (d, i) {
+    bars.select("rect").attr("fill", function (d, i) {
         return colors(i)
     });
 
     //Step 10
     //add description [adding and using css]
-    svg
+    group
             .append("text")
-            .attr("x", 50).attr("y", 100)
+            .attr("x", 200).attr("y", 0)
             .attr("class", "heading")
-            .text("My Bar graph")
+            .text("Age vs Population");
 
 
 </script>
