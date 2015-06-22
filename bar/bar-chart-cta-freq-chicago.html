@@ -1,0 +1,119 @@
+<html>
+<head>
+    <script type="text/javascript" src="../d3.min.js"></script>
+</head>
+<style>
+    .chart .heading {
+        font-size: 20px;
+        font-style: italic;
+    }
+</style>
+<body>
+<span class="chart"></span>
+<script type="text/javascript">
+
+    var svg = d3
+            .select(".chart")
+            .append("svg");
+
+    var group = svg
+            .append("g");
+
+
+    d3.csv("cta-rides-july-2014.csv", function (d) {
+
+        var monthTotal = Math.round(d.monthtotal / 1000);
+            return {
+                stationName: d.stationame,
+                monthTotal: monthTotal
+            };
+    }, function (data) {
+        data = data.sort(function(a, b) {
+            return d3['descending'](a.monthTotal, b.monthTotal);
+        });
+
+        var viewPortHeight = 1000;
+        var barWidth = 50;
+        var spacing = 20;
+        var translate = 50;
+        var viewPortWidth = data.length * (barWidth + spacing) + translate;
+        svg
+                .attr("height", viewPortHeight)
+                .attr("width", viewPortWidth);
+
+
+
+        var bars = group
+                .selectAll("g")
+                .data(data).enter()
+                .append("g");
+        group.attr("transform", "translate(50, 50)");
+
+        var rect = bars
+                .append("rect");
+
+        rect
+                .attr("width", barWidth)
+                .attr("height", function (d) {
+                    return d.monthTotal;
+                });
+
+        rect
+                .attr("x", function (d, i) {
+                    return i * (barWidth + spacing);
+                });
+
+        var maxHeight = d3.max(data, function (d) {
+            return d.monthTotal;
+        });
+        rect
+                .attr("y", function (d) {
+                    return maxHeight - d.monthTotal;
+                });
+
+
+        bars
+                .append("text")
+                .attr("y", function (d) {
+                    return maxHeight - d.monthTotal;
+                })
+                .attr("x", function (d, i) {
+                    return i * (barWidth + spacing)
+                })
+                .style("fill", "red")
+                .text(function (d) {
+                    return d.monthTotal;
+                });
+
+
+        bars
+                .append("text")
+                .attr("y", maxHeight + 10)
+                .attr("x", function (d, i) {
+                    return i * (barWidth + spacing )
+                })
+                .style("fill", "blue")
+                .style("font-size", "12px")
+                .text(function (d) {
+                    return d.stationName;
+                });
+
+
+        var colors = d3.scale.category20();
+        bars.select("rect").attr("fill", function (d, i) {
+            return colors(i)
+        });
+
+
+        group
+                .append("text")
+                .attr("x", 200).attr("y", 100)
+                .attr("class", "heading")
+                .text("CTA Rider frequency for July 2014");
+
+    });
+
+
+</script>
+</body>
+</html>
