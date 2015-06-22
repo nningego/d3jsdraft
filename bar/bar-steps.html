@@ -103,13 +103,31 @@
     //Hover over <svg> and it will show you a default h and w - 300 x 150
     //Lets fix that
 
+    var viewPortHeight = 600;
+    var viewPortWidth = 800;
     svg
-            .attr("height", 600)
-            .attr("width", 600);
+            .attr("height", viewPortHeight)
+            .attr("width", viewPortWidth);
 
     //You create a new SVG viewport whenever you create a new SVG element.
     // The size of the viewport is equal to the width and height you set on the SVG element.
     //viewport size: 300px by 150px seems to be the general default
+
+
+    //Understanding the axes
+//    The width of the SVG Viewport is 1000 units
+//    We want to map the numbers of 0 to 1000 (.domain([0, 1000]))
+//    onto the width of the view port - which is 1000 units
+//    So we define the range of the scale as .range([0, 1000])
+    var x = d3.time.scale().domain([0,viewPortWidth]).range([0, viewPortWidth]);
+    var xAxis = d3.svg.axis().scale(x)
+            .orient("bottom");
+    var xAxisGroup = svg.append("g").call(xAxis);
+
+    var y = d3.scale.linear().domain([viewPortHeight, 0]).range([viewPortHeight, 0]);
+    var yAxis = d3.svg.axis().scale(y)
+            .orient("right");
+    var yAxisGroup = svg.append("g").call(yAxis);
 
 
     //        Step 8 - adding text
@@ -128,7 +146,7 @@
             });
 
     //lets make some space to add age on x axis
-    group.attr("transform", "translate(50, 20)");
+    group.attr("transform", "translate(50, 50)");
 
     //add age on x-axis
     bars
@@ -161,9 +179,12 @@
     //add description [adding and using css]
     group
             .append("text")
-            .attr("x", 200).attr("y", 0)
+            .attr("x", 200).attr("y", 450)
             .attr("class", "heading")
             .text("Age vs Population");
+
+
+//Remove helper axes
 
 
 </script>
