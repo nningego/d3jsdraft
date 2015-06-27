@@ -57,46 +57,38 @@
                     return d.monthTotal;
                 });
 
+        var x = d3.scale.ordinal().rangePoints([0, viewPortWidth]);
+        x.domain(data.map(function (d) {
+            return d.stationName;
+        }));
         rect
                 .attr("x", function (d, i) {
-                    return i * (barWidth + spacing);
+                    return x(d.stationName);
                 });
 
         var maxHeight = d3.max(data, function (d) {
             return d.monthTotal;
         });
+        var y = d3.scale.linear().range([maxHeight, 0]);
+        y.domain([0, d3.max(data, function (d) { return d.monthTotal; })]);
         rect
                 .attr("y", function (d) {
-                    return maxHeight - d.monthTotal;
+                    return y(d.monthTotal);
                 });
 
 
         bars
                 .append("text")
                 .attr("y", function (d) {
-                    return maxHeight - d.monthTotal;
+                    return y(d.monthTotal);
                 })
                 .attr("x", function (d, i) {
-                    return i * (barWidth + spacing)
+                    return x(d.stationName)
                 })
                 .style("fill", "red")
                 .text(function (d) {
                     return d.monthTotal;
                 });
-
-
-//        bars
-//                .append("text")
-//                .attr("y", maxHeight + 10)
-//                .attr("x", function (d, i) {
-//                    return i * (barWidth + spacing )
-//                })
-//                .style("fill", "blue")
-//                .style("font-size", "12px")
-//                .text(function (d) {
-//                    return d.stationName;
-//                });
-
 
         var colors = d3.scale.category20();
         bars.select("rect").attr("fill", function (d, i) {
@@ -110,18 +102,20 @@
                 .attr("class", "heading")
                 .text("CTA Rider frequency for July 2014");
 
-        var x = d3.scale.linear().range([0, viewPortWidth]);
-        x.domain(d3.extent(data, function (d, i) {
-            return i;
-        }));
 
         var xAxis = d3.svg.axis().scale(x)
+                .tickValues(x.domain())
                 .orient("bottom");
         var xAxisGroup = group
-                .append("g")
-                .attr("class", "x axis")
-                .attr("transform", "translate(0," + maxHeight + ")")
-                .call(xAxis);
+                  .append("g")
+                  .attr("class", "x axis")
+                  .attr("transform", "translate(0," + maxHeight + ")")
+                  .call(xAxis)
+                .selectAll("text")
+                  .attr("transform", "rotate(-70)")
+                  .attr("x", -10)
+                  .attr("y", 30)
+                  .style("text-anchor", "end");
 
 
     });
