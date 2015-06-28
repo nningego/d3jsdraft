@@ -20,9 +20,9 @@
     //Draw a rectangle of size 100 x 50 pixels
     //Step 1
     //Add rect svg element
-    //    var rect = d3.select("body")
-    //            .append("svg")
-    //            .append("rect");
+//        var rect = d3.select("body")
+//                .append("svg")
+//                .append("rect");
     //Look at html and see what elements have been added to the page
     //You should see <svg><rect>
 
@@ -130,6 +130,10 @@
     var yAxisGroup = svg.append("g").call(yAxis);
 
 
+    //lets make some space to add age on x axis
+    group.attr("transform", "translate(50, 50)");
+
+
     //        Step 8 - adding text
     //    adding population
     bars
@@ -144,9 +148,6 @@
             .text(function (d) {
                 return d.population;
             });
-
-    //lets make some space to add age on x axis
-    group.attr("transform", "translate(50, 50)");
 
     //add age on x-axis
     bars

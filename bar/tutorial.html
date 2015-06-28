@@ -1,0 +1,110 @@
+<html>
+<head>
+    <script type="text/javascript" src="../d3.min.js"></script>
+</head>
+<body>
+<span class="chart"></span>
+<script type="text/javascript">
+    var svg = d3
+            .select(".chart")
+            .append("svg");
+
+
+    var data = [
+        {age: "<5", population: 50},
+        {age: "5-13", population: 87},
+        {age: "14-17", population: 400},
+        {age: "18-24", population: 235},
+        {age: "25-44", population: 76},
+        {age: "45-64", population: 234},
+        {age: ">=65", population: 98}
+    ];
+
+    var allBars = svg
+            .append("g");
+
+    var bars = allBars
+            .selectAll("g")
+            .data(data).enter()
+            .append("g");
+
+    var rect = bars
+            .append("rect");
+
+    var barWidth = 50;
+    rect
+            .attr("width", barWidth)
+            .attr("height", function (d) {
+                return d.population;
+            });
+
+    rect
+            .attr("x", function (d, i) {
+                return i * (barWidth + 10);
+            });
+
+    var viewPortHeight = 600;
+    var viewPortWidth = 800;
+    svg
+            .attr("height", viewPortHeight)
+            .attr("width", viewPortWidth);
+
+    var x = d3.scale.linear().domain([0, viewPortWidth]).range([0, viewPortWidth]);
+    var xAxis = d3.svg.axis().scale(x);
+    var xAxisGroup = svg.append("g").call(xAxis);
+
+    var y = d3.scale.linear().domain([viewPortHeight, 0]).range([viewPortHeight, 0]);
+    var yAxis = d3.svg.axis().scale(y)
+            .orient("right");
+    var yAxisGroup = svg.append("g").call(yAxis);
+
+
+    var maxHeight = d3.max(data, function (d) {
+        return d.population;
+    });
+
+    rect
+            .attr("y", function (d) {
+                return maxHeight - d.population;
+            });
+
+    allBars.attr("transform", "translate(50, 50)");
+
+    bars
+            .append("text")
+            .text(function (d) {
+                return d.population;
+            })
+            .attr("y", function (d) {
+                return maxHeight - d.population;
+            })
+            .attr("x", function (d, i) {
+                return i * (barWidth + 10)
+            })
+            .style("fill", "red");
+
+    bars
+            .append("text")
+            .attr("y", maxHeight + 10)
+            .attr("x", function (d, i) {
+                return i * (barWidth + 10 )
+            })
+            .style("fill", "blue")
+            .text(function (d) {
+                return d.age;
+            });
+
+    var colors = d3.scale.category20();
+    bars.select("rect").attr("fill", function (d, i) {
+        return colors(i)
+    });
+
+    allBars
+            .append("text")
+            .attr("x", 200).attr("y", 450)
+            .attr("class", "heading")
+            .text("Age vs Population");
+
+</script>
+</body>
+</html>
