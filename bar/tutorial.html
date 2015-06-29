@@ -53,7 +53,7 @@
     var xAxis = d3.svg.axis().scale(x);
     var xAxisGroup = svg.append("g").call(xAxis);
 
-    var y = d3.scale.linear().domain([viewPortHeight, 0]).range([viewPortHeight, 0]);
+    var y = d3.scale.linear().domain([0, viewPortHeight]).range([0, viewPortHeight]);
     var yAxis = d3.svg.axis().scale(y)
             .orient("right");
     var yAxisGroup = svg.append("g").call(yAxis);
@@ -96,7 +96,7 @@
 
     var colors = d3.scale.category20();
     bars.select("rect").attr("fill", function (d, i) {
-        return colors(i)
+        return colors(i);
     });
 
     allBars
