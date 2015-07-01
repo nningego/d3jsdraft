@@ -23,12 +23,12 @@
     d3.csv("cta-rides-july-2014.csv", function (d) {
 
         var monthTotal = Math.round(d.monthtotal / 1000);
-            return {
-                stationName: d.stationame,
-                monthTotal: monthTotal
-            };
+        return {
+            stationName: d.stationame,
+            monthTotal: monthTotal
+        };
     }, function (data) {
-        data = data.sort(function(a, b) {
+        data = data.sort(function (a, b) {
             return d3['descending'](a.monthTotal, b.monthTotal);
         });
 
@@ -70,7 +70,9 @@
             return d.monthTotal;
         });
         var y = d3.scale.linear().range([maxHeight, 0]);
-        y.domain([0, d3.max(data, function (d) { return d.monthTotal; })]);
+        y.domain([0, d3.max(data, function (d) {
+            return d.monthTotal;
+        })]);
         rect
                 .attr("y", function (d) {
                     return y(d.monthTotal);
@@ -107,15 +109,15 @@
                 .tickValues(x.domain())
                 .orient("bottom");
         var xAxisGroup = group
-                  .append("g")
-                  .attr("class", "x axis")
-                  .attr("transform", "translate(0," + maxHeight + ")")
-                  .call(xAxis)
+                .append("g")
+                .attr("class", "x axis")
+                .attr("transform", "translate(0," + maxHeight + ")")
+                .call(xAxis)
                 .selectAll("text")
-                  .attr("transform", "rotate(-70)")
-                  .attr("x", -10)
-                  .attr("y", 30)
-                  .style("text-anchor", "end");
+                .attr("transform", "rotate(-70)")
+                .attr("x", -10)
+                .attr("y", 30)
+                .style("text-anchor", "end");
 
 
     });

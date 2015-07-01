@@ -34,4 +34,3 @@ Convert data to fit into your chart
 ============================================ 
 
 Use simple server: Run from example folder [macs already come with python] python -m SimpleHTTPServer 8000.
-Dillinger is a cloud-enabled, mobile-ready, offline-storage, AngularJS powered HTML5 Markdown editor.
