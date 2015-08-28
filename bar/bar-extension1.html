@@ -15,15 +15,15 @@
 
 
     d3.csv("cta-rides-july-2014.csv",
-            function (d) {
+            function(d) {
                 var monthtotal = Math.round(d.monthtotal / 1000);
                 return {
                     stationName: d.stationame,
                     monthlyTotal: monthtotal
                 };
             },
-            function (data) {
-                data = data.sort(function (a, b) {
+            function(data) {
+                data = data.sort(function(a, b) {
                     return d3['descending'](a.monthlyTotal, b.monthlyTotal);
                 });
 
@@ -45,43 +45,43 @@
                         .append("rect");
                 rect
                         .attr("width", barWidth)
-                        .attr("height", function (d) {
+                        .attr("height", function(d) {
                             return d.monthlyTotal;
                         });
 
 
                 var x = d3.scale.ordinal().rangePoints([0, viewPortWidth]);
-                x.domain(data.map(function (d) {
+                x.domain(data.map(function(d) {
                     return d.stationName;
                 }));
                 rect
-                        .attr("x", function (d, i) {
+                        .attr("x", function(d, i) {
                             return x(d.stationName);
                         });
 
-                var maxHeight = d3.max(data, function (d) {
+                var maxHeight = d3.max(data, function(d) {
                     return d.monthlyTotal;
                 });
                 var y = d3.scale.linear().range([maxHeight, 0]);
-                y.domain([0, d3.max(data, function (d) {
-                    return d.monthlyTotal;
-                })]);
+
+                // range of possible input data values
+                y.domain([0, maxHeight]);
                 rect
-                        .attr("y", function (d) {
+                        .attr("y", function(d) {
                             return y(d.monthlyTotal);
                         });
 
 
                 bars
                         .append("text")
-                        .attr("y", function (d) {
+                        .attr("y", function(d) {
                             return y(d.monthlyTotal);
                         })
-                        .attr("x", function (d) {
+                        .attr("x", function(d) {
                             return x(d.stationName)
                         })
                         .style("fill", "red")
-                        .text(function (d) {
+                        .text(function(d) {
                             return d.monthlyTotal;
                         });
 
@@ -100,7 +100,7 @@
                         .style("text-anchor", "end");
 
                 var colors = d3.scale.category20();
-                bars.select("rect").attr("fill", function (d, i) {
+                bars.select("rect").attr("fill", function(d, i) {
                     return colors(i)
                 });
 
